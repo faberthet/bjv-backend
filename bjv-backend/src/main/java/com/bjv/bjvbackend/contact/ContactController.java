@@ -1,4 +1,4 @@
-package contact;
+package com.bjv.bjvbackend.contact;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,9 +20,9 @@ public class ContactController {
 		//System.out.println(contact);
 	}
 	
-	// @GetMapping("")
-	// public void testfdsfsdfet(){
-	//	System.out.println("coucou");
-	//}
+	 @GetMapping("")
+	 public void testfdsfsdfet(){
+		System.out.println("coucou");
+	}
 	
 }

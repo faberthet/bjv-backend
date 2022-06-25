@@ -1,4 +1,4 @@
-package contact;
+package com.bjv.bjvbackend.contact;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
