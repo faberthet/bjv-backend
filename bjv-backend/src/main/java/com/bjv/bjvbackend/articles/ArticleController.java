@@ -25,6 +25,9 @@ public class ArticleController {
 	@Autowired
 	private ArticleRepository articleRepository;
 	
+	@Autowired
+	private FileStorageService fileStorageService;
+	
 	@GetMapping("articles")
 	public List<Article> getAllArticles(){
 		
@@ -32,9 +35,12 @@ public class ArticleController {
 	}
 	
 	@PostMapping("articles")
-	public Article sendEmail(@RequestBody Article article){
+	public Article createArticle(@RequestBody Article article){
 		
-		return articleRepository.save(article);
+		Article createArticle = articleRepository.save(article);
+		fileStorageService.createImageFolder(createArticle.getId()); //creation dossier pour stocker les images de l'aticle
+		//return articleRepository.save(article);
+		return createArticle;
 	}
 
 	@GetMapping("articles/{id}")

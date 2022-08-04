@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,13 +36,14 @@ public class ImageController {
 	
 	@PostMapping("upl")
 	@CrossOrigin("http://localhost:4200")
-	public Map<String, String> storeImage(@RequestParam MultipartFile upload) throws IOException { // param file = nom de la key form-data
+	public Map<String, String> storeImage(@RequestParam MultipartFile upload, @RequestHeader(value="Image-Folder") Long imageFolder) throws IOException { // param file = nom de la key form-data
 		
-		String path=System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images";
-		System.out.println(upload.getOriginalFilename());
-		System.out.println(upload.getName());
-		System.out.println(path);
-		System.out.println(System.getProperty("user.dir"));
+		String path=System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\" + imageFolder;
+		//System.out.println(upload.getOriginalFilename());
+		//System.out.println(upload.getName());
+		//System.out.println(path);
+		//System.out.println(System.getProperty("user.dir"));
+		//System.out.println(imageFolder);
 		
 		Files.copy(upload.getInputStream(), Paths.get(path + File.separator + upload.getOriginalFilename()) , StandardCopyOption.REPLACE_EXISTING);
 		
@@ -49,6 +51,7 @@ public class ImageController {
 		response.put("url", "localhost:8080/images/"+upload.getOriginalFilename());
 		return response;
 	}
+	
 	
 	@GetMapping("test")
 	public void test() {
