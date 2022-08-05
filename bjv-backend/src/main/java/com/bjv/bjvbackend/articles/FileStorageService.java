@@ -1,11 +1,13 @@
 package com.bjv.bjvbackend.articles;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -67,6 +69,11 @@ public class FileStorageService {
 		        }
 		    }
 		
+	}
+	
+	
+	public void deleteFolder(Long id) throws IOException {
+		FileUtils.deleteDirectory(new File(ImagePath+"\\" +id));
 	}
 	
 }

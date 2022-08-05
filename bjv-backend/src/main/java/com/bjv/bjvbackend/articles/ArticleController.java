@@ -1,5 +1,6 @@
 package com.bjv.bjvbackend.articles;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,15 +66,15 @@ public class ArticleController {
 		fileStorageService.deleteUnusedFiles(id, UpdatedArticle.getContent());
 		
 		return ResponseEntity.ok(UpdatedArticle);
-		
 	}
 	
 	@DeleteMapping("articles/{id}")
-	public ResponseEntity<Map<String, Boolean>> deleteArticle(@PathVariable long id) {
+	public ResponseEntity<Map<String, Boolean>> deleteArticle(@PathVariable long id) throws IOException {
 		Article article = articleRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("article not exist with id" + id));
 		
 		articleRepository.delete(article);
+		fileStorageService.deleteFolder(id);
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
 		return ResponseEntity.ok(response);
