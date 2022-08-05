@@ -39,7 +39,7 @@ public class ImageController {
 		Files.copy(upload.getInputStream(), Paths.get(path + File.separator + upload.getOriginalFilename()) , StandardCopyOption.REPLACE_EXISTING);
 		
 		Map<String, String> response = new HashMap<>();
-		response.put("url", "localhost:8080/images/"+imageFolder+"/"+upload.getOriginalFilename());
+		response.put("url", "http://localhost:8080/images/"+imageFolder+"/"+upload.getOriginalFilename());
 		return response;
 	}
 	
