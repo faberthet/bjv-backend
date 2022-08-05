@@ -27,6 +27,10 @@ public class FileStorageService {
 
 	}
 	
+	
+	/*
+	 * retourne la liste des noms des images utilisé dans le contenu html
+	 */
 	private List<String> getFileNames(String htmlContent) {
 		
 		List<String> allMatches = new ArrayList<String>();
@@ -45,6 +49,24 @@ public class FileStorageService {
 	    }
 	       
 	    return allImgFileNames;    
+	}
+	
+	/*
+	 * Suprime les fichiers images non utilisés du dossier de stockage de l'article
+	 */
+	public void deleteUnusedFiles(Long id, String htmlContent) {
+		
+		List<String> allImgNamesinHtml = getFileNames(htmlContent);
+		
+		final File folder = new File(ImagePath+"\\" +id);
+		
+		    for (final File fileEntry : folder.listFiles()) {
+		    	
+		        if(!allImgNamesinHtml.contains(fileEntry.getName())) {
+		        	fileEntry.delete();
+		        }
+		    }
+		
 	}
 	
 }

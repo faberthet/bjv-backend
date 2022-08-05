@@ -62,6 +62,8 @@ public class ArticleController {
 		
 		Article UpdatedArticle = articleRepository.save(article);
 		
+		fileStorageService.deleteUnusedFiles(id, UpdatedArticle.getContent());
+		
 		return ResponseEntity.ok(UpdatedArticle);
 		
 	}
