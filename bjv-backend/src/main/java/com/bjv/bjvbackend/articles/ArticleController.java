@@ -79,4 +79,34 @@ public class ArticleController {
 		response.put("deleted", Boolean.TRUE);
 		return ResponseEntity.ok(response);
 	}
+	
+	@PutMapping("articles/activate/{id}")
+	public ResponseEntity<Map<String, Boolean>> activateArticle(@PathVariable long id) {
+		
+		Article article = articleRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("article not exist with id" + id));
+		
+		article.setActif(true);
+		
+		Article UpdatedArticle = articleRepository.save(article);
+		
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("activate", Boolean.TRUE);
+		return ResponseEntity.ok(response);
+	}
+	
+	@PutMapping("articles/deactivate/{id}")
+	public ResponseEntity<Article> deactivateArticle(@PathVariable long id) {
+		
+		Article article = articleRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("article not exist with id" + id));
+		
+		article.setActif(false);
+		
+		Article UpdatedArticle = articleRepository.save(article);
+		
+		return ResponseEntity.ok(UpdatedArticle);
+	}
+	
+	
 }

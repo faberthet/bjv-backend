@@ -16,15 +16,19 @@ private long id;
 private String titre;
 private String theme;
 private String content;
+private Boolean actif;
 
 public Article() {}
 
-public Article(String titre, String theme, String content) {
+public Article(long id, String titre, String theme, String content, Boolean actif) {
 	super();
+	this.id = id;
 	this.titre = titre;
 	this.theme = theme;
 	this.content = content;
+	this.actif = actif;
 }
+
 public long getId() {
 	return id;
 }
@@ -48,6 +52,12 @@ public String getContent() {
 }
 public void setContent(String content) {
 	this.content = content;
+}
+public Boolean getActif() {
+	return actif;
+}
+public void setActif(Boolean actif) {
+	this.actif = actif;
 }
 
 
