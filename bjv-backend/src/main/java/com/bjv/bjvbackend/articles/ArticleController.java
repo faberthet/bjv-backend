@@ -35,6 +35,16 @@ public class ArticleController {
 		return articleRepository.findAll();
 	}
 	
+	@GetMapping("articles/dto")
+	public List<ArticleWithoutContent> getAllArticlesWithoutContent(){
+		
+		List<ArticleWithoutContent> articles= (List<ArticleWithoutContent>)articleRepository.findAllProjectedBy();
+		
+		return articles;
+	}
+	
+	
+	
 	@PostMapping("articles")
 	public Article createArticle(@RequestBody Article article){
 		
