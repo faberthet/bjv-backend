@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bjv.bjvbackend.articles.ResourceNotFoundException;
+
 @RestController
 @RequestMapping("admin/auth")
 @CrossOrigin("http://localhost:4200")
@@ -21,21 +23,16 @@ public class AdminController {
 	private AdminRepo adminRepo;
 	
 	@PostMapping("")
-	public ResponseEntity<Map<String, Boolean>> Login(@RequestBody AdminModel admin){
+	public ResponseEntity<Map<String, String>> Login(@RequestBody AdminModel admin){
 		System.out.println(admin);
-		AdminModel adminModel = adminRepo.findByAdminId(admin.getAdminId());
+
+		AdminModel adminModel = adminRepo.findById(admin.getAdminId()).orElseThrow(() -> new ResourceNotFoundException("article not exist with id" + admin.getAdminId()));
 
 		System.out.println(adminModel);
-		
-		Map<String, Boolean> response = new HashMap<>();
-		
-		if(adminModel!=null) {
-			response.put("login", Boolean.TRUE);
-			return ResponseEntity.ok(response);
-		}
-		response.put("login", Boolean.FALSE);
+		Map<String, String> response = new HashMap<>();
+		response.put("user", adminModel.getAdminId());
 		return ResponseEntity.ok(response);
-		
+	
 	}
 	
 }
