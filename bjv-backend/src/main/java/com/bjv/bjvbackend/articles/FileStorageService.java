@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class FileStorageService {
 	
-	private String ImagePath=System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images";
+	//private String ImagePath=System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images";
+	private String ImagePath=System.getProperty("user.dir") + "\\target\\classes\\static\\images";
 
 	
 	public void createImageFolder(Long id) {
