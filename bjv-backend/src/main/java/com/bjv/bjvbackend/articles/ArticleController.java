@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bjv.bjvbackend.service.S3StorageService;
 
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("api/v1")
-@CrossOrigin("http://localhost:4200")
 public class ArticleController {
 	
 	@Autowired
@@ -28,6 +29,9 @@ public class ArticleController {
 	
 	@Autowired
 	private FileStorageService fileStorageService;
+	
+	@Autowired
+	private S3StorageService s3StorageService;
 	
 	@GetMapping("articles")
 	public List<Article> getAllArticles(){
@@ -49,7 +53,8 @@ public class ArticleController {
 	public Article createArticle(@RequestBody Article article){
 		
 		Article createArticle = articleRepository.save(article);
-		fileStorageService.createImageFolder(createArticle.getId()); //creation dossier pour stocker les images de l'aticle
+		//fileStorageService.createImageFolder(createArticle.getId()); //creation dossier pour stocker les images de l'aticle
+		
 		//return articleRepository.save(article);
 		return createArticle;
 	}
@@ -73,7 +78,8 @@ public class ArticleController {
 		
 		Article UpdatedArticle = articleRepository.save(article);
 		
-		fileStorageService.deleteUnusedFiles(id, UpdatedArticle.getContent());
+		//fileStorageService.deleteUnusedFiles(id, UpdatedArticle.getContent());
+		s3StorageService.deleteUnusedFiles(id, UpdatedArticle.getContent());
 		
 		return ResponseEntity.ok(UpdatedArticle);
 	}
@@ -84,7 +90,8 @@ public class ArticleController {
 				.orElseThrow(() -> new ResourceNotFoundException("article not exist with id" + id));
 		
 		articleRepository.delete(article);
-		fileStorageService.deleteFolder(id);
+		//fileStorageService.deleteFolder(id);
+		s3StorageService.deleteFolder(id);
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
 		return ResponseEntity.ok(response);

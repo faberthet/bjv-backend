@@ -1,6 +1,7 @@
 package com.bjv.bjvbackend.articles;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,6 +14,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,12 +24,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+
 @CrossOrigin("http://localhost:4200")
+@RestController
 public class ImageController {
 	
-
+	@Value("${aws-bucket}")
+	private String bucketname;
+	
+	@Value("${aws-storage-url}")
+	private String storageUrl;
+	
+	@Autowired
+	private AmazonS3 s3Client;
+	
 	@PostMapping("upl")
+	public Map<String, String> storeImage(@RequestParam MultipartFile upload, @RequestHeader(value="Image-Folder") Long imageFolder) throws IOException { // param file = nom de la key form-data
+		
+		s3Client.putObject(new PutObjectRequest(bucketname,"images/"+imageFolder+"/"+upload.getOriginalFilename(),upload.getInputStream(), null ));
+		
+		Map<String, String> response = new HashMap<>();
+		
+		response.put("url", storageUrl+"/images/"+ imageFolder +"/"+upload.getOriginalFilename());
+		
+		System.out.println(response.get("url"));
+
+		return response;
+	}
+
+	/*@PostMapping("upl")
 	@CrossOrigin("http://localhost:4200")
 	public Map<String, String> storeImage(@RequestParam MultipartFile upload, @RequestHeader(value="Image-Folder") Long imageFolder) throws IOException { // param file = nom de la key form-data
 		
@@ -50,36 +78,7 @@ public class ImageController {
 		System.out.println(response.get("url"));
 
 		return response;
-	}
+	}*/
 	
-	
-	@GetMapping("test")
-	public void getFileNames() {
-		
-		 List<String> allMatches = new ArrayList<String>();
-		 Matcher m = Pattern.compile("<img src=\"(.*?)\"")
-		     .matcher("<img src=\"http://site.org/one.jpg\" />\n <img src=\"http://site.org/two.jpg\" />");
-		 while (m.find()) {
-		   allMatches.add(m.group());
-		 }
-		 
-		 List<String> allImgFileNames = new ArrayList<String>();
-		 
-	       for(String match : allMatches) {
-	    	   String[] tab= match.split("/");
-	    	   String fileName= tab[tab.length-1];
-	    	   allImgFileNames.add(fileName.substring(0, fileName.length() - 1));
-	    	   //System.out.println(match.toString());
-	        }
-	       
-	       for(String fileName : allImgFileNames) {
-	    	   
-	    	   System.out.println(fileName.toString());
-	       }
-	       
-	       
-	       
-	       
-	}
 
 }

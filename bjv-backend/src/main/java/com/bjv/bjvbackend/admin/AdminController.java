@@ -1,6 +1,7 @@
 package com.bjv.bjvbackend.admin;
 
 import java.util.HashMap;
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bjv.bjvbackend.articles.ResourceNotFoundException;
 
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("admin/auth")
-@CrossOrigin("http://localhost:4200")
 public class AdminController {
 	
 	 @Autowired
