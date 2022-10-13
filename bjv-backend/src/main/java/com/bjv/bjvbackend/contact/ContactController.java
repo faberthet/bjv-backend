@@ -13,16 +13,16 @@ public class ContactController {
 	@Autowired
 	EmailSenderService service;
 	
-	@CrossOrigin("http://localhost:4200")
+	@CrossOrigin("*")
 	@PostMapping("")
 	public void sendEmail(@RequestBody ContactModel contact){
 		service.SendEmail("berthet-fabrice@hotmail.fr", contact.toString(), "contact from breizh jardin vivant");
-		//System.out.println(contact);
+		System.out.println(contact);
 	}
 	
-	 @GetMapping("")
+	 /*@GetMapping("")
 	 public void testfdsfsdfet(){
 		System.out.println("coucou");
-	}
+	}*/
 	
 }

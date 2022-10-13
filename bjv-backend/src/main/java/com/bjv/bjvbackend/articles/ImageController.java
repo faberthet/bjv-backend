@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 @RestController
 public class ImageController {
 	
