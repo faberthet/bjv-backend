@@ -25,6 +25,8 @@ public class ContactController {
 	 public void testfdsfsdfet(){
 		System.out.println("coucou");
 	}*/
+	
+	// necessaire pour aws elastic beanstalk il faut un GET à l'origine
 	@CrossOrigin("*")
 	@GetMapping("/")
 	@ResponseBody

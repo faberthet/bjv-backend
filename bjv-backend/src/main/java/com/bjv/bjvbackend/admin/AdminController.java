@@ -23,17 +23,29 @@ public class AdminController {
 	 @Autowired
 	private AdminRepo adminRepo;
 	
-	@PostMapping("")
-	public ResponseEntity<Map<String, String>> Login(@RequestBody AdminModel admin){
-		System.out.println(admin);
+		@PostMapping("")
+		public ResponseEntity<Map<String, Boolean>> Login(@RequestBody AdminModel admin){
+			System.out.println(admin);
 
-		AdminModel adminModel = adminRepo.findById(admin.getAdminId()).orElseThrow(() -> new ResourceNotFoundException("article not exist with id" + admin.getAdminId()));
+			AdminModel adminModel = adminRepo.findById(admin.getAdminId()).orElseThrow(() -> new ResourceNotFoundException("article not exist with id" + admin.getAdminId()));
 
-		System.out.println(adminModel);
-		Map<String, String> response = new HashMap<>();
-		response.put("user", adminModel.getAdminId());
-		return ResponseEntity.ok(response);
-	
-	}
+			System.out.println(adminModel);
+			
+			
+			Map<String, Boolean> response = new HashMap<String, Boolean>();
+			
+			System.out.println(adminModel.getPassword());
+			System.out.println(admin.getPassword());
+			
+			if(adminModel.getPassword().equals(admin.getPassword())) {
+				System.out.println("true");
+				response.put("valid", true);
+			}else {
+				System.out.println("false");
+				response.put("valid",false);
+			}
+			
+			return ResponseEntity.ok(response);
+		}
 	
 }
