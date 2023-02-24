@@ -73,7 +73,9 @@ public class ArticleController {
 				.orElseThrow(() -> new ResourceNotFoundException("article not exist with id" + id));
 		
 		article.setTitre(EditedArticle.getTitre());
-		article.setTheme(EditedArticle.getTheme());
+		//article.setTheme(EditedArticle.getTheme());
+		article.setSection(EditedArticle.getSection());
+		article.setSubsection(EditedArticle.getSubsection());
 		article.setContent(EditedArticle.getContent());
 		
 		Article UpdatedArticle = articleRepository.save(article);
