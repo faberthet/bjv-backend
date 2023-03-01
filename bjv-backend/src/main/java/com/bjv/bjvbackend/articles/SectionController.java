@@ -28,12 +28,12 @@ public class SectionController {
 	}
 	
 	@GetMapping("subsections")
-	public List<String> getSubsections(@RequestParam String section){
+	public List<Subsection> getSubsections(@RequestParam String section){
 		
 		return subsectionRepository.findAllBySectionName(section);
 	}
 	
-	@PostMapping("section")
+	@PostMapping("sections")
 	public Section addSection(@RequestBody Section section){
 		//
 		Section addedSection = sectionRepository.save(section);
@@ -41,7 +41,7 @@ public class SectionController {
 		return addedSection;
 	}
 	
-	@PostMapping("subsection")
+	@PostMapping("subsections")
 	public Subsection addSubsection(@RequestBody Subsection subsection ){
 		//
 		Subsection addedSubsection = subsectionRepository.save(subsection);
