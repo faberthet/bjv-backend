@@ -18,8 +18,9 @@ public class Subsection {
 	
 	public Subsection() {}
 	
-	public Subsection(String name, String sectionName) {
+	public Subsection(int id, String name, String sectionName) {
 		super();
+		this.id=id;
 		this.name = name;
 		this.sectionName = sectionName;
 	}
